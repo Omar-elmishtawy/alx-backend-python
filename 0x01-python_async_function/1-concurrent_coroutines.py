@@ -12,6 +12,7 @@ async def wait_n(n: int, max_delay: int) -> List[float]:
     """
     execute multiple coroutinese at the same time
     """
-    x = asyncio.gather(wait_random(max_delay))
+    task = [asyncio.create_task(wait_random(max_delay)) for _ in range(n)]
+    ls = await asyncio.gather(*task)
 
-    return x
+    return ls
